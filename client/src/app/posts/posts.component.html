@@ -1,0 +1,25 @@
+<div class="post-content">
+    <div class="header">johnbuscher.com</div>
+    <div class="subheader">A collection of little projects I've worked on over the years.</div>
+    <div class="search-container">
+        <input type="text" class="search" placeholder="Search all posts" (keyup)="onSearchChange($event)">
+    </div>
+    <div class="post-list">
+        <div *ngFor="let post of posts"
+            (click)="onClick($event, post.route.path)"
+            class="post">
+            <div class="post-icon"><img src={{post.iconPath}}/></div>
+            <div class="post-text">
+                <div class="post-date">{{post.date}}</div>
+                <h1 class="post-title">{{post.title}}</h1>
+                <div class="post-tags">
+                    <span>Tags: </span>
+                    <button *ngFor="let tag of post.tags" 
+                         class="post-tag"
+                         [ngClass]="getTagClass(tag)" 
+                         (click)="onTagClick(tag)">{{tag}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

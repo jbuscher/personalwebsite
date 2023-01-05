@@ -1,0 +1,17 @@
+{
+  "name": "misc_scripts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lastTwoMinuteReportExtracter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "firebase-admin": "^11.0.0",
+    "mongoose": "^6.4.6",
+    "node-html-parser": "^5.3.3"
+  }
+}

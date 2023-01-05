@@ -1,0 +1,161 @@
+@media only screen and (max-width: 75rem) {
+    .post-content {
+        max-width: 625px;
+        margin: 0 auto;
+        padding: 40px 60px;
+    }
+}
+
+.header { 
+    font-size: 24px;
+    font-weight: bold;
+}
+.subheader { 
+    font-style: italic;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.post {
+    width: 100%;
+    height: 168px;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: rgb(0 0 0 / 11%) 0px 0px 18px 0px;
+    background-color: #fff;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+.post:hover {
+    box-shadow: rgb(0 0 0 / 22%) 0px 0px 18px 0px;
+    background-color: rgb(254,254,254);
+}
+
+.post-icon {
+    width: 30%;
+    margin-right: 5%;
+}
+
+.post-icon > img {
+    max-width:100%;
+    max-height:168px;
+    border-radius: 3px;
+}
+
+.post-text {
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+}
+.post-date {
+    color: #999;
+    font-size: .9rem;
+}
+.post-read {
+    color: #3f51b5;
+    font-size: .9rem;
+}
+
+.search-container {
+    display: flex;
+    margin-bottom: 40px;
+}
+
+.search {
+    border: 0;
+    box-shadow: rgb(0 0 0 / 10%) 0px 2px 20px -2px;
+    -webkit-box-shadow: rgb(0 0 0 / 10%) 0px 2px 20px -2px;
+    -webkit-appearance: none;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.6;
+    letter-spacing: normal;
+    color: #000;
+    padding: 10px 20px;
+    border-radius: 3px;
+}
+.post-tags {
+    margin-top: 50px;
+    width: fit-content;
+}
+
+.post-tags > span {
+    margin-right: 5px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.post-tag {
+    height: 20px;
+    border: none;
+    border-radius: 3px;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-right: 8px;
+}
+
+.post-tag:hover {
+    opacity: 1;
+}
+
+
+.tag-data_viz {
+    background-color:#AD1457;
+    opacity: .60;
+    color: white;
+}
+.tag-math {
+    background-color:#3f51b5;
+    opacity: .60;
+    color: white;
+}
+.tag-nba {
+    background-color:#EF6C00;
+    opacity: .60;
+    color: white;
+}
+.tag-programming {
+    background-color: #00796B;
+    opacity: .60;
+    color: white;
+}
+.tag-science {
+    background-color: #616161;
+    opacity: .60;
+    color: white;
+}
+
+/* Content below is shared for individual post pages */
+.p2t-header {
+    font-size: 36px;
+    font-weight: 500;
+}
+
+.p2t-all-content {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 640px;
+    padding: 80px 20px 0;
+
+}
+.p2t-date {
+    color:#999;
+    font-size: 12px;
+}
+.p2t-blog-content {
+    padding-top: 20px;
+    line-height: 1.6;
+    font-size: 15px;
+}
