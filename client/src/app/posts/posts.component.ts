@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PostListing } from '../types/types';
-import {POSTS, TAGS} from '../constants/constants'
+import {POSTS} from '../constants/constants'
 
 @Component({
   selector: 'app-posts',
@@ -16,8 +16,7 @@ export class PostsComponent implements OnInit {
     this.posts = POSTS;
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onClick($event: MouseEvent, path: string | undefined) {
     if (($event.target as HTMLElement).className.includes("post-tag")) {

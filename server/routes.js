@@ -9,8 +9,18 @@ const publicPath = isProd ? path.join(__dirname, 'public'):  path.join(__dirname
 router.get('/', (req, res) => {
     res.sendFile(path.join(publicPath,'index.html'));
 })
+router.get('/about', (req, res) => {
+    res.sendFile(path.join(publicPath,'index.html'));
+})
+router.get('/posts', (req, res) => {
+    res.sendFile(path.join(publicPath,'index.html'));
+})
+router.get('/projects', (req, res) => {
+    res.sendFile(path.join(publicPath,'index.html'));
+})
 
 router.get('/api/hello', (req, res) => {
+    console.log("hello")
     res.type('text');
     res.status(200);
     res.send({text:'Jello World!'});

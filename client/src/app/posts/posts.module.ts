@@ -5,6 +5,7 @@ import { PostsRoutingModule } from './posts-routing.module';
 import { L2mComponent } from './l2m-post/l2m.component';
 import { ChaosPostComponent } from './chaos-post/chaos-post.component';
 import { ThreeBodyPostComponent } from './three-body-post/three-body-post.component';
+import { PostsComponent } from './posts.component';
 
 
 
@@ -13,7 +14,8 @@ import { ThreeBodyPostComponent } from './three-body-post/three-body-post.compon
     MetaPostComponent,
     L2mComponent,
     ChaosPostComponent,
-    ThreeBodyPostComponent
+    ThreeBodyPostComponent,
+    PostsComponent,
   ],
   imports: [
     CommonModule,

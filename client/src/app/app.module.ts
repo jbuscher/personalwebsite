@@ -12,7 +12,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import { ContactComponent } from './contact/contact.component';
 import { ProjectsComponent } from './projects/projects.component';
-import { PostsComponent } from './posts/posts.component';
+import { PostsModule } from './posts/posts.module';
 
 
 
@@ -21,10 +21,10 @@ import { PostsComponent } from './posts/posts.component';
     AppComponent,
     ContactComponent,
     ProjectsComponent,
-    PostsComponent,
   ],
   imports: [
     BrowserModule,
+    PostsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatToolbarModule,

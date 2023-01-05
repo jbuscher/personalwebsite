@@ -14,7 +14,4 @@ export class AppComponent {
     http.get<string>('/api/hello').subscribe((res) => console.log(res));
   }
 
-  ngOnInit(): void {
-    this.router.navigateByUrl("posts");
-  }
 }
