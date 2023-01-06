@@ -8,11 +8,11 @@ import { ThreeBodyPostComponent } from './three-body-post/three-body-post.compon
 
 
 const routes: Routes = [
-  { path: '', component: PostsComponent },
-  { path: 'meta', component: MetaPostComponent },
-  { path: 'l2m', component: L2mComponent },
-  { path: 'chaos', component: ChaosPostComponent },
-  { path: 'threeBody', component: ThreeBodyPostComponent }];
+  { path: 'posts', component: PostsComponent },
+  { path: 'posts/meta', component: MetaPostComponent },
+  { path: 'posts/l2m', component: L2mComponent },
+  { path: 'posts/chaos', component: ChaosPostComponent },
+  { path: 'posts/threeBody', component: ThreeBodyPostComponent }];
 
 
 

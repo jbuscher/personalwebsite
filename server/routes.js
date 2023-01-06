@@ -18,6 +18,12 @@ router.get('/posts', (req, res) => {
 router.get('/projects', (req, res) => {
     res.sendFile(path.join(publicPath,'index.html'));
 })
+router.get('/planets', (req, res) => {
+    res.sendFile(path.join(publicPath,'index.html'));
+})
+router.get('/chaos', (req, res) => {
+    res.sendFile(path.join(publicPath,'index.html'));
+})
 
 router.get('/api/hello', (req, res) => {
     console.log("hello")
