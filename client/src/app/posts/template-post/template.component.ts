@@ -7,7 +7,7 @@ import { BlogPost } from '../blogpost';
 @Component({
   selector: 'app-template-post',
   templateUrl: './template.component.html',
-  styleUrls: ['./template.component.css']
+  styleUrls: ['./template.component.css', '../posts.component.css']
 })
 export class TemplatePostComponent extends BlogPost implements OnInit {
   post: PostListing;

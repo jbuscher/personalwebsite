@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import * as d3 from 'd3';
+import { POSTS } from 'src/app/constants/constants';
 import { NbaService } from '../../services/nba.service';
-import { L2mRow } from '../../types/types';
+import { L2mRow, PostListing } from '../../types/types';
+import { BlogPost } from '../blogpost';
 
 interface L2mCounts {
   callsCounts: number;
@@ -18,13 +21,21 @@ const POSSESIONS = "Possessions in Favor"
 @Component({
   selector: 'app-l2m',
   templateUrl: './l2m.component.html',
-  styleUrls: ['./l2m.component.css']
+  styleUrls: ['./l2m.component.css', '../posts.component.css']
 })
-export class L2mComponent implements OnInit {   
+export class L2mComponent extends BlogPost implements OnInit {   
+  post: PostListing;
+  router: Router;
+
   teamsL2mCounts: Map<string, L2mCounts>;
   playersL2mCounts: Map<string, number>;
 
-    constructor (private nbaService:NbaService) {
+    constructor (private nbaService:NbaService,
+      router: Router) {
+      super();
+      this.router = router;
+      this.post = POSTS.find(p => p.title == "Last Two Minutes")!;
+
       this.teamsL2mCounts = new Map();
       this.playersL2mCounts = new Map();
       nbaService.getL2m().subscribe(d => {this.populateTeamsMap(d), this.populatePlayersMap(d)});

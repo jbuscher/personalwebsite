@@ -1,5 +1,19 @@
 
-<div id=""></div>
-<div id="container">
-    <svg id="team-counts"></svg>
+
+<div class="p2t-all-content">
+    <div class="p2t-header">{{post.title}}</div>
+    <div class="p2t-tags">
+        <button *ngFor="let tag of post.tags" 
+             class="post-tag"
+             [ngClass]="getTagClass(tag)" 
+             (click)="onTagClick(tag, this.router)">{{tag}}</button>
+    </div>
+    <div class="p2t-date">{{post.date}}</div>
+    <div class="p2t-blog-content">
+        <p>TODO</p>
+        <div id=""></div>
+    <div id="container">
+        <svg id="team-counts"></svg>
+    </div>
+    </div>
 </div>

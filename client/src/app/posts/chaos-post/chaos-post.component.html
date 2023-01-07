@@ -8,11 +8,94 @@
     </div>
     <div class="p2t-date">{{post.date}}</div>
     <div class="p2t-blog-content">
-        <p>Before reading, I recommend checking out the app project itself,
-            linked frpm the projects page. You can play around with the different
-            settings, and see the fractals being built iteratively. I learned about
+        <p><a href="/chaos"> Project </a></p>
+        <p><a href="https://github.com/jbuscher/chaos-game"> See the code on github </a></p>
+        <div class="img-container">
+            <img class="fractal-gif" src="assets/chaos/fractalgif.gif"/>
+            <span>Iteratively drawn fractal</span>
+        </div>
+        <p>In 2016,  I built this little web app for iteratively constructing
+            fractal images. It uses a method called a Chaos Game in order to do so.
+            Before covering the details of the Chaos Game method, I recommend checking out the app project itself,
+            linked up at the top of this post. You can play around with the different
+            settings, and see the fractals being built iteratively. I originally learned about
             this method from reading the book <a href="https://en.wikipedia.org/wiki/Chaos:_Making_a_New_Science">Chaos by James Gleick</a>.
         </p>
+        <h2>What is a Chaos Game?</h2>
+        <p>
+            A Chaos Game is a method of drawing a fractal through a seemingly unsuspecting process.
+            Here's a quick overview of the process:
+        </p>
+        <ol>
+            <li>Choose a polygon to act as the container for the fractal.</li>
+            <li>Select a random point within that polygon, and draw a pixel at this point</li>
+            <li>Choose some fraction between 0 and 1</li>
+            <li>Select a vertex on the polygon using a consistant "<b>rule</b>" (to be defined below)</li>
+            <li>Move that fraction from the current point to the selected vertex, to receive the next point, and draw a pixel there.</li>
+            <li>Repeat steps 4-6 ad infinitum</li>
+        </ol>
+        <p><b>Rule</b> - A constraint on which vertecies of the polygon are valid for selection in step 3
+        <em>"Select a vertex at random, as long as it is not the previously chosen vertex"</em></p>
+        <p>Lets run through a quick example:</p>
+        <p><b>1. Choose a polygon to act as the container for the fractal. We'll select a square</b></p>
+        <svg width="300" height="250" xmlns="http://www.w3.org/2000/svg">
+            <rect width="200"
+              height="200" 
+              x="25"
+              y="25"
+              stroke-width="2"
+              stroke="rgb(0,0,0)" 
+              fill="#FFF"/>
+        </svg>
+        <p> <b>2. Select a random point within that polygon, and draw a pixel at this point. Lets say at random, we selected the point (50,80)</b></p>
+        <svg width="300" height="250" xmlns="http://www.w3.org/2000/svg">
+            <rect width="200"
+              height="200" 
+              x="25"
+              y="25"
+              stroke-width="2"
+              stroke="rgb(0,0,0)" 
+              fill="#FFF"/>
+              <circle cx="75" cy="105" r="3" stroke="black" stroke-width="1" fill="red" />
+              <g fill="none" stroke="black" stroke-width="4">
+                <path stroke-dasharray="1, 5" d="M25 105 l50 0" />
+                <path stroke-dasharray="1, 5" d="M75 25 l0 80" />
+              </g>
+              <text fill="black" x="45" y="120" font-size="smaller">50</text>
+              <text fill="black" x="80" y="70" font-size="smaller">80</text>
+        </svg>
+        <p><b>3. Choose some fraction between 0 and 1.</b> Lets choose 1/2</p>
+        <p><b>4. Select a vertex on the polygon using a "rule".</b></p>
+        <p>For this example, we'll use: <em>"Select a vertex at random, as long as it is not the previously chosen vertex." </em>&nbsp;This means any of the verticies are valid, at random, we selected the top right.</p>
+        <svg width="300" height="250" xmlns="http://www.w3.org/2000/svg">
+            <rect width="200"
+              height="200" 
+              x="25"
+              y="25"
+              stroke-width="2"
+              stroke="rgb(0,0,0)" 
+              fill="#FFF"/>
+              <circle cx="75" cy="105" r="3" stroke="black" stroke-width="1" fill="red" />
+              <circle cx="225" cy="25" r="8" stroke="red" stroke-width="3" fill="none" />
+        </svg>
+        <p><b>5. Move that fraction from the current point to the selected vertex, to receive the next point, and draw a pixel there.</b></p>
+        <p>The green circle represents our new point, <b>1/2</b> (our selected fraction) the distance between the current point and the vertex</p>
+        <svg width="300" height="250" xmlns="http://www.w3.org/2000/svg">
+            <rect width="200"
+              height="200" 
+              x="25"
+              y="25"
+              stroke-width="2"
+              stroke="rgb(0,0,0)" 
+              fill="#FFF"/>
+              <line x1="75" y1="105" x2="225" y2="25" stroke="red" stroke-width="2" />
+            <circle cx="75" cy="105" r="2" stroke="black" stroke-width="1" fill="red" />
+            <circle cx="150" cy="65" r="5" stroke="black" stroke-width="1" fill="green" />
+        </svg>
+        <p>If we were to continue this process over and over again, we'd get something that looks a little like this:</p>
+        <div class="example-container">
+            <img class="fractal-gif" src="assets/chaos/fractalgif2.gif"/>
+        </div>
     </div>
 </div>
 

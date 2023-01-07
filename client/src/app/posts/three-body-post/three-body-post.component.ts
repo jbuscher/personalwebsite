@@ -7,7 +7,7 @@ import { BlogPost } from '../blogpost';
 @Component({
   selector: 'app-three-body-post',
   templateUrl: './three-body-post.component.html',
-  styleUrls: ['./three-body-post.component.css']
+  styleUrls: ['./three-body-post.component.css', '../posts.component.css']
 })
 export class ThreeBodyPostComponent extends BlogPost implements OnInit {
   post: PostListing;
