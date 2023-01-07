@@ -1,6 +1,11 @@
 <div class="p2t-all-content">
     <div class="p2t-header">{{post.title}}</div>
-    <h4></h4>
+    <div class="p2t-tags">
+        <button *ngFor="let tag of post.tags" 
+             class="post-tag"
+             [ngClass]="getTagClass(tag)" 
+             (click)="onTagClick(tag, this.router)">{{tag}}</button>
+    </div>
     <div class="p2t-date">{{post.date}}</div>
     <div class="p2t-blog-content">
         <p>Before reading, I recommend checking out the app project itself,

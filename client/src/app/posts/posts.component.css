@@ -93,6 +93,12 @@
     width: fit-content;
 }
 
+.post-title {
+    padding-top: 8;
+    font-size: 26px;
+    font-weight:500
+}
+
 .post-tags > span {
     margin-right: 5px;
     font-family: Roboto;
@@ -163,4 +169,8 @@
     padding-top: 20px;
     line-height: 1.6;
     font-size: 15px;
+}
+
+.p2t-tags {
+    padding-top: 20px;
 }

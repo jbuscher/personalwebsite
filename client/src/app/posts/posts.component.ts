@@ -1,22 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PostListing } from '../types/types';
 import {POSTS} from '../constants/constants'
+import { BlogPost } from './blogpost';
 
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.css']
 })
-export class PostsComponent implements OnInit {
+export class PostsComponent extends BlogPost implements OnInit {
 
   posts: PostListing[];
+  query = "";
+  router: Router;
 
-  constructor(private router: Router) { 
+  constructor(router: Router,
+    private route: ActivatedRoute) { 
+    super();
+    this.router = router;
     this.posts = POSTS;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.query = params['q'];
+      if (!this.query) {
+        this.query = "";
+      }
+        this.onQuery(this.query);
+    });
+  }
 
   onClick($event: MouseEvent, path: string | undefined) {
     if (($event.target as HTMLElement).className.includes("post-tag")) {
@@ -48,14 +62,11 @@ export class PostsComponent implements OnInit {
     }
   }
 
-  onTagClick(tag: String) {
-    let query = "tag:"+tag;
-    (document.querySelector(".search") as HTMLInputElement).value = query;
-    this.filterPosts(query);
+  onQuery(q: string) {
+    this.query = q;
+    (document.querySelector(".search") as HTMLInputElement).value = this.query;
+    this.filterPosts(this.query);
   }
 
-  getTagClass(tag: String): String {
-    return "tag-" + tag.toLowerCase();
-  }
 
 }

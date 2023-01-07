@@ -15,6 +15,9 @@ router.get('/about', (req, res) => {
 router.get('/posts', (req, res) => {
     res.sendFile(path.join(publicPath,'index.html'));
 })
+router.get('/posts/*', (req, res) => {
+    res.sendFile(path.join(publicPath,'index.html'));
+})
 router.get('/projects', (req, res) => {
     res.sendFile(path.join(publicPath,'index.html'));
 })

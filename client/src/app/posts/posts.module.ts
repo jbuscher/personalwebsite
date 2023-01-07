@@ -6,6 +6,7 @@ import { L2mComponent } from './l2m-post/l2m.component';
 import { ChaosPostComponent } from './chaos-post/chaos-post.component';
 import { ThreeBodyPostComponent } from './three-body-post/three-body-post.component';
 import { PostsComponent } from './posts.component';
+import { TemplatePostComponent } from './template-post/template.component';
 
 
 
@@ -16,6 +17,7 @@ import { PostsComponent } from './posts.component';
     ChaosPostComponent,
     ThreeBodyPostComponent,
     PostsComponent,
+    TemplatePostComponent
   ],
   imports: [
     CommonModule,
