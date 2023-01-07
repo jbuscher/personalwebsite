@@ -6,7 +6,7 @@ client/dist
 /tmp
 /out-tsc
 /bazel-out
-/release
+/release/node_modules
 /misc_scripts/output
 
 # Node
