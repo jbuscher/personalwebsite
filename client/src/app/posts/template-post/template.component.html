@@ -6,7 +6,7 @@
              [ngClass]="getTagClass(tag)" 
              (click)="onTagClick(tag, this.router)">{{tag}}</button>
     </div>
-    <div class="p2t-date">{{post.date}}</div>
+    <div class="p2t-date">{{format(post.date)}}</div>
     <div class="p2t-blog-content">
         <p>TODO2
         </p>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { POSTS } from 'src/app/constants/constants';
+import { POSTS, THREE_BODY } from 'src/app/constants/constants';
 import { PostListing } from 'src/app/types/types';
 import { BlogPost } from '../blogpost';
 
@@ -15,7 +15,7 @@ export class ThreeBodyPostComponent extends BlogPost implements OnInit {
   constructor(router: Router) {
     super();
     this.router = router
-    this.post = POSTS.find(p => p.title == "The Three Body Problem")!;
+    this.post = POSTS.find(p => p.title == THREE_BODY)!;
    }
 
   ngOnInit(): void {

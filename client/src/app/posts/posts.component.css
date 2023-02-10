@@ -1,10 +1,3 @@
-@media only screen and (max-width: 75rem) {
-    .post-content {
-        max-width: 625px;
-        margin: 0 auto;
-        padding: 40px 60px;
-    }
-}
 
 .post-content {
     max-width: 700px;
@@ -152,6 +145,7 @@
 .p2t-header {
     font-size: 36px;
     font-weight: 500;
+    line-height: 36px;
 }
 
 .p2t-all-content {
@@ -173,4 +167,22 @@
 
 .p2t-tags {
     padding-top: 20px;
+}
+
+@media only screen and (max-width: 900px) {
+    .post-content {
+        max-width: 625px;
+        margin: 0 auto;
+        padding: 40px 60px;
+    }
+    .post-title {
+        font-size: 22px;
+    }
+    .post-tag {
+        font-size: 11px;
+        font-weight: 400;
+    }
+    .post-tags {
+        margin-top: 30px;
+    }
 }

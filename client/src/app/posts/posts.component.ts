@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PostListing } from '../types/types';
 import {POSTS} from '../constants/constants'
 import { BlogPost } from './blogpost';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-posts',
@@ -20,6 +21,7 @@ export class PostsComponent extends BlogPost implements OnInit {
     super();
     this.router = router;
     this.posts = POSTS;
+    this.posts.sort(this.comparePostsByDate);
   }
 
   ngOnInit(): void {
@@ -31,6 +33,17 @@ export class PostsComponent extends BlogPost implements OnInit {
         this.onQuery(this.query);
     });
   }
+
+  comparePostsByDate(a: PostListing, b: PostListing): number {
+    let ad = new Date(a.date)
+    let bd = new Date(b.date)
+    if (ad == bd) {
+      return 0;
+    }
+    // sort descending
+    return ad < bd ? 1: -1
+  }
+
 
   onClick($event: MouseEvent, path: string | undefined) {
     if (($event.target as HTMLElement).className.includes("post-tag")) {

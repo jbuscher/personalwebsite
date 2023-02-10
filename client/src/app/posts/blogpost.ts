@@ -1,4 +1,6 @@
 import { Router } from "@angular/router";
+import { formatDate } from '@angular/common';
+
 
 export class BlogPost {
     constructor() {}
@@ -11,4 +13,8 @@ export class BlogPost {
     getTagClass(tag: String): String {
         return "tag-" + tag.toLowerCase();
     }
+
+    format(date:string) {
+        return formatDate(new Date(date), 'mediumDate', 'en');
+      }
 }

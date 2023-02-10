@@ -10,10 +10,10 @@
             class="post">
             <div class="post-icon"><img src={{post.iconPath}}/></div>
             <div class="post-text">
-                <div class="post-date">{{post.date}}</div>
+                <div class="post-date">{{format(post.date)}}</div>
                 <h1 class="post-title">{{post.title}}</h1>
                 <div class="post-tags">
-                    <span>Tags: </span>
+
                     <button *ngFor="let tag of post.tags" 
                          class="post-tag"
                          [ngClass]="getTagClass(tag)" 

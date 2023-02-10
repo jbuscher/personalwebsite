@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { POSTS } from 'src/app/constants/constants';
+import { CHAOS, POSTS } from 'src/app/constants/constants';
 import { PostListing } from 'src/app/types/types';
 import { BlogPost } from '../blogpost';
 
@@ -17,7 +17,7 @@ export class ChaosPostComponent extends BlogPost implements OnInit {
   constructor(router: Router) {
     super()
     this.router = router;
-    this.post = POSTS.find(p => p.title == "Chaos Game")!;
+    this.post = POSTS.find(p => p.title == CHAOS)!;
    }
 
   ngOnInit(): void {

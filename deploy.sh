@@ -5,7 +5,6 @@ npm run-script build
 popd
 pushd ./release
 rm *.js
-rm *.json
 rm -r ./public
 popd
 

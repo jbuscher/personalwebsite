@@ -7,6 +7,7 @@ import { ChaosPostComponent } from './chaos-post/chaos-post.component';
 import { ThreeBodyPostComponent } from './three-body-post/three-body-post.component';
 import { PostsComponent } from './posts.component';
 import { TemplatePostComponent } from './template-post/template.component';
+import { GradientDescentPostComponent } from './gradient-descent-post/gradient-descent-post.component';
 
 
 
@@ -17,7 +18,8 @@ import { TemplatePostComponent } from './template-post/template.component';
     ChaosPostComponent,
     ThreeBodyPostComponent,
     PostsComponent,
-    TemplatePostComponent
+    TemplatePostComponent,
+    GradientDescentPostComponent,
   ],
   imports: [
     CommonModule,

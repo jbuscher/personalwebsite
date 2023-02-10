@@ -1,0 +1,35 @@
+<div class="p2t-all-content">
+    <div class="p2t-header">{{post.title}}</div>
+    <div class="p2t-tags">
+        <button *ngFor="let tag of post.tags" 
+             class="post-tag"
+             [ngClass]="getTagClass(tag)" 
+             (click)="onTagClick(tag, this.router)">{{tag}}</button>
+    </div>
+    <div class="p2t-date">{{format(post.date)}}</div>
+    <div class="p2t-blog-content">
+        <p>
+            Trying to learn more about machine learning has really uncovered some areas
+            in Mathematics, especially calculus, that have severly atrophied for me.
+            <a href="https://www.3blue1brown.com/lessons/neural-networks">This lesson</a> by 3Blue1Brown
+            has insipred this recent machine learning intrest. But before diving too deep, 
+            I figured it would be good to do a quick refresher on a basic calculus topic, gradient descent.
+        </p>
+        <h2>What is a Gradient Descent?</h2>
+        <p>
+            The concept of gradient descent is actually quite simple, it's a general algorithm
+            for deterimining local mimima for any differentiable function. In other words,
+            for a smooth function, running gradient descent on that function will find one of the
+            valleys in that function, but not necessarily the lowest valley. In the example below,
+            one of the two red dots would be found after running a gradient descent algorithm against
+            the function.
+        </p>
+        <div class="img-container">
+            <img class="fractal-gif" src="assets/descent/minima_example.png"/>
+            <div>Red dots are the two local minima for this function</div>
+        </div>
+    </div>
+    <h2>The Algorithm</h2>
+    <p></p>
+
+</div>

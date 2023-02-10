@@ -10,32 +10,38 @@ export const TAGS = {
     DATA_VIZ: "DATA_VIZ",
     SCIENCE: "SCIENCE"
 }
+
+export const GRADIENT = "Gradient Descent Refresher"
+export const CHAOS = "Chaos Game"
+export const L2M = "Last Two Minutes (TODO)"
+export const THREE_BODY = "The Three Body Problem (TODO)"
   
 export const POSTS: PostListing[] = [
   {
-    date: "01/07/2022",
-    title: "Chaos Game",
+    date: "2023-02-08",
+    title: GRADIENT,
+    iconPath: "assets/descent/minima_example.png",
+    route: { path: 'gradiant'},
+    tags: [TAGS.MATH]
+  },
+  {
+    date: "2023-01-07",
+    title: CHAOS,
     iconPath: "assets/chaos/logo2.png",
     route: { path: 'chaos' },
     tags:[TAGS.MATH, TAGS.PROGRAMMING]
   },
+    
     {
-      date: "09/24/2022",
-      title: "Meta Post",
-      iconPath: "assets/meta.png",
-      route: { path: 'meta'},
-      tags: [TAGS.PROGRAMMING]
-    },
-    {
-      date: "09/24/2022",
-      title: "Last Two Minutes",
+      date: "2022-09-24",
+      title: L2M,
       iconPath: "assets/l2m.jpeg",
       route: { path: 'l2m'},
       tags:[TAGS.NBA, TAGS.DATA_VIZ]
     },
       {
-        date: "09/24/2022",
-        title: "The Three Body Problem",
+        date: "2022-09-24",
+        title: THREE_BODY,
         iconPath: "assets/3body.png",
         route:   { path: 'threeBody' },
         tags:[TAGS.SCIENCE, TAGS.PROGRAMMING]

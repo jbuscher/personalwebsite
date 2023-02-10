@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as d3 from 'd3';
-import { POSTS } from 'src/app/constants/constants';
+import { L2M, POSTS } from 'src/app/constants/constants';
 import { NbaService } from '../../services/nba.service';
 import { L2mRow, PostListing } from '../../types/types';
 import { BlogPost } from '../blogpost';
@@ -34,7 +34,7 @@ export class L2mComponent extends BlogPost implements OnInit {
       router: Router) {
       super();
       this.router = router;
-      this.post = POSTS.find(p => p.title == "Last Two Minutes")!;
+      this.post = POSTS.find(p => p.title == L2M)!;
 
       this.teamsL2mCounts = new Map();
       this.playersL2mCounts = new Map();
