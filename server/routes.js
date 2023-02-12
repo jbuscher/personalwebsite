@@ -32,6 +32,9 @@ router.get('/planets', (req, res) => {
 router.get('/chaos', (req, res) => {
     res.sendFile(path.join(publicPath,'index.html'));
 })
+router.get('/ml', (req, res) => {
+    res.sendFile(path.join(publicPath,'index.html'));
+})
 
 router.get('/api/hello', (req, res) => {
     console.log("hello")

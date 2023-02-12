@@ -22,6 +22,18 @@ export class MlComponent implements OnInit {
     addEventListener('mouseup', (event) => {
       this.isMouseDown = false;
     });
+    addEventListener('touchstart', (event) => {
+      this.isMouseDown = true;
+    });
+    addEventListener('touchend', (event) => {
+      this.isMouseDown = false;
+    });
+    addEventListener('touchmove', (event) => {
+      this.onCellTouchOver(event)
+    });
+    addEventListener('touchcancel', (event) => {
+      this.isMouseDown = false;
+    });
    }
 
   ngOnInit(): void {
@@ -53,6 +65,19 @@ export class MlComponent implements OnInit {
       let target = e.relatedTarget.classList[1].split("-")
       let x = Number.parseInt(target[0])
       let y = Number.parseInt(target[1])
+      this.cells[x][y]=1
+    }
+  }
+
+  onCellTouchOver(e:any) {
+    
+
+    if (this.isMouseDown && !!e) {
+      var myLocation = e.changedTouches[0];
+      let target = document.elementFromPoint(myLocation.clientX, myLocation.clientY)?.classList[1].split("-");//e.target.classList[1].split("-")
+      let x = Number.parseInt(target![0])
+      let y = Number.parseInt(target![1])
+
       this.cells[x][y]=1
     }
   }
