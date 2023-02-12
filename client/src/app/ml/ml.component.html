@@ -1,12 +1,14 @@
-<p>ml works!</p>
-<div id="drawing">
-    <div *ngFor="let row of cells let i_r=index;" class="row">
-        <span *ngFor="let cell of row let i_c=index"
-            [ngClass]="'cell ' + (i_r +'-' +i_c)"
-            [style.background-color]="getColor(cell)"
-            (mouseover)="onCellMouseOver($event)"></span>
+<div class="mlbody">
+  <p>ml works!</p>
+    <div id="drawing">
+        <div *ngFor="let row of cells let i_r=index;" class="row">
+            <span *ngFor="let cell of row let i_c=index"
+                [ngClass]="'cell ' + (i_r +'-' +i_c)"
+                [style.background-color]="getColor(cell)"
+                (mouseover)="onCellMouseOver($event)"></span>
+        </div>
     </div>
+    <button (click)="onSend()">Send</button>
+    <button (click)="onClear()">Clear</button>
+    <div>{{result}}</div>
 </div>
-<button (click)="onSend()">Send</button>
-<button (click)="onClear()">Clear</button>
-<div>{{result}}</div>
