@@ -1,9 +1,14 @@
 var path = require('path');
 var router = require('express').Router();
 var isProd = process.env.NODE_ENV === 'production';
+var bodyParser = require('body-parser');
+router.use(bodyParser.json())
 const LocalDb = require('./localDb');
 const db = new LocalDb();
+const Ml = require('./ml/ml');
+const ml = new Ml();
 const publicPath = isProd ? path.join(__dirname, 'public'):  path.join(__dirname, '..', 'client', 'dist', 'ang-personal-website');
+
 
 
 router.get('/', (req, res) => {
@@ -62,6 +67,24 @@ router.get('/api/players', async (req, res) => {
     res.status(200);
     let data = await db.find({"nbaData.game.Home_team": "Celtics"})
     res.send(data);
+})
+
+router.get('/api/ml', async (req, res) => {
+    res.type('blob');
+    res.status(200);
+    let index = Number.parseInt(req.query.index);
+    index = index ? index: 0;
+    let digit = Number.parseInt(req.query.digit);
+    digit = digit ? digit: 0;
+    data = ml.getBlobBuffer(digit, index);
+    res.send(data);
+})
+
+router.post('/api/postarr', async (req, res) => {
+    let a = ml.testNumber(req.body.content)
+    console.log(a)
+    res.type='json'
+    res.send({ans:a})
 })
 
 module.exports = router;

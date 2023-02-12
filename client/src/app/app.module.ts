@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ContactComponent } from './contact/contact.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { PostsModule } from './posts/posts.module';
+import { MlComponent } from './ml/ml.component';
 
 
 
@@ -21,6 +22,7 @@ import { PostsModule } from './posts/posts.module';
     AppComponent,
     ContactComponent,
     ProjectsComponent,
+    MlComponent,
   ],
   imports: [
     BrowserModule,

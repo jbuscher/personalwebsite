@@ -1,0 +1,20 @@
+.cell {
+    width: 5px;
+    height: 5px;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    top: -9px;
+    position: relative;
+}
+.row {
+    margin: 0;
+    padding: 0;
+    height: 5px;
+}
+
+#drawing {
+    margin: 20px;
+    border: 1px black solid;
+    width:  140px
+}
