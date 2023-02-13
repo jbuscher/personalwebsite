@@ -1,22 +1,22 @@
 .cell {
-    width: 5px;
-    height: 5px;
+    width: 8px;
+    height: 8px;
     margin: 0;
     padding: 0;
     display: inline-block;
-    top: -9px;
+    top: -7px;
     position: relative;
     user-select: none;
 }
 .row {
     margin: 0;
     padding: 0;
-    height: 5px;
+    height: 8px;
     user-select: none;
 }
 
 #drawing {
     margin: 20px;
     border: 1px black solid;
-    width:  140px
+    width:  224px
 }
