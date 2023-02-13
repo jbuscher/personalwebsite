@@ -18,29 +18,29 @@ export class MlComponent implements OnInit {
     this.cells = []
     this.fromArray(testdata)
     this.isMouseDown = false
+    
+   }
+
+  ngOnInit(): void {
     addEventListener('mousedown', (event) => {
       this.isMouseDown = true;
     });
     addEventListener('mouseup', (event) => {
       this.isMouseDown = false;
     });
-    addEventListener('touchstart', (event) => {
+    document.getElementById('drawing')!.addEventListener('touchstart', (event) => {
       this.isMouseDown = true;
-    });
-    addEventListener('touchend', (event) => {
+    }, {passive:false});
+    document.getElementById('drawing')!.addEventListener('touchend', (event) => {
       this.isMouseDown = false;
     });
-    addEventListener('touchmove', (event) => {
-      if (event.srcElement == document.body)
-          event.preventDefault()
+    document.getElementById('drawing')!.addEventListener('touchmove', (event) => {
+      event.preventDefault()
       this.onCellTouchOver(event)
     }, {passive:false});
     addEventListener('touchcancel', (event) => {
       this.isMouseDown = false;
     });
-   }
-
-  ngOnInit(): void {
   }
 
   onSend() {
