@@ -97,7 +97,7 @@ export class MlComponent implements OnInit {
     if (x < 0 || y < 0 || x > 27 || y > 27) {
       return
     }
-    this.cells[x][y]+=.05
+    this.cells[x][y]+=.02
     if (this.cells[x][y] > 1) {
       this.cells[x][y] = 1
     }
