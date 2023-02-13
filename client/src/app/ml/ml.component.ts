@@ -13,6 +13,7 @@ export class MlComponent implements OnInit {
   result = -1
 
   constructor(private mlService: MlService) {
+    document.body.style.overscrollBehavior = "none"
     this.cells = []
     this.fromArray(testdata)
     this.isMouseDown = false
@@ -62,23 +63,43 @@ export class MlComponent implements OnInit {
 
   onCellMouseOver(e:any) {
     if (this.isMouseDown) {
-      let target = e.relatedTarget.classList[1].split("-")
+      let target = document.elementFromPoint(e.clientX, e.clientY)!.classList[1].split("-");
       let x = Number.parseInt(target[0])
       let y = Number.parseInt(target[1])
-      this.cells[x][y]=1
+      this.paintCells(x, y)
     }
   }
 
-  onCellTouchOver(e:any) {
-    
 
+  onCellTouchOver(e:any) {
     if (this.isMouseDown && !!e) {
       var myLocation = e.changedTouches[0];
-      let target = document.elementFromPoint(myLocation.clientX, myLocation.clientY)?.classList[1].split("-");//e.target.classList[1].split("-")
+      let target = document.elementFromPoint(myLocation.clientX, myLocation.clientY)?.classList[1].split("-");
       let x = Number.parseInt(target![0])
       let y = Number.parseInt(target![1])
+      this.paintCells(x, y)
+    }
+  }
 
-      this.cells[x][y]=1
+  paintCells(x: number, y:number) {
+    this.cells[x][y] = 1
+    this.paintBorderCell(x-1, y)
+    this.paintBorderCell(x-1, y-1)
+    this.paintBorderCell(x-1, y+1)
+    this.paintBorderCell(x+1, y)
+    this.paintBorderCell(x+1, y+1)
+    this.paintBorderCell(x+1, y-1)
+    this.paintBorderCell(x, y-1)
+    this.paintBorderCell(x, y+1)
+  }
+
+  paintBorderCell(x: number, y:number) {
+    if (x < 0 || y < 0 || x > 27 || y > 27) {
+      return
+    }
+    this.cells[x][y]+=.05
+    if (this.cells[x][y] > 1) {
+      this.cells[x][y] = 1
     }
   }
 
