@@ -14,6 +14,7 @@ export class MlComponent implements OnInit {
 
   constructor(private mlService: MlService) {
     document.body.style.overscrollBehavior = "none"
+    document.documentElement.style.overscrollBehavior = "none"
     this.cells = []
     this.fromArray(testdata)
     this.isMouseDown = false
