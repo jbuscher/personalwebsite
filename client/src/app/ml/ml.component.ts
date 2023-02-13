@@ -13,8 +13,8 @@ export class MlComponent implements OnInit {
   result = -1
 
   constructor(private mlService: MlService) {
-    document.body.style.overscrollBehavior = "none"
-    document.documentElement.style.overscrollBehavior = "none"
+    // document.body.style.overscrollBehavior = "none"
+    // document.documentElement.style.overscrollBehavior = "none"
     this.cells = []
     this.fromArray(testdata)
     this.isMouseDown = false
@@ -31,8 +31,10 @@ export class MlComponent implements OnInit {
       this.isMouseDown = false;
     });
     addEventListener('touchmove', (event) => {
+      if (event.srcElement == document.body)
+          event.preventDefault()
       this.onCellTouchOver(event)
-    });
+    }, {passive:false});
     addEventListener('touchcancel', (event) => {
       this.isMouseDown = false;
     });
@@ -75,7 +77,14 @@ export class MlComponent implements OnInit {
   onCellTouchOver(e:any) {
     if (this.isMouseDown && !!e) {
       var myLocation = e.changedTouches[0];
-      let target = document.elementFromPoint(myLocation.clientX, myLocation.clientY)?.classList[1].split("-");
+      let classlist = document.elementFromPoint(myLocation.clientX, myLocation.clientY)?.classList[1]
+      if (classlist == undefined) {
+        return
+      }
+      let target = classlist.split("-");
+      if (target == undefined || target.length == 0) {
+        return
+      }
       let x = Number.parseInt(target![0])
       let y = Number.parseInt(target![1])
       this.paintCells(x, y)

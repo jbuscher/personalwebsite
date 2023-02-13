@@ -63,6 +63,4 @@ class Model {
     }
 }
 
-
-
 module.exports = Ml
