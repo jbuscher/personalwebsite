@@ -18,7 +18,7 @@ export const POSTS: PostListing[] = [
   {
     date: "2023-02-08",
     title: HELLO_ML,
-    iconPath: "assets/descent/minima_example.png",
+    iconPath: "assets/descent/mldigit.png",
     route: { path: 'helloMl'},
     tags: [TAGS.MATH, TAGS.PROGRAMMING]
   },

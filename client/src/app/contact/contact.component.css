@@ -6,12 +6,13 @@
     max-width: 400px;
     border-radius: 8px;
     object-fit: cover;
+    margin-bottom: 16px;
 }
 @media only screen and (max-width: 750px) {
-    .me {
-        max-width: 200px;
-        border-radius: 8px;
-        object-fit: cover;
+    .bio {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
   }
 
