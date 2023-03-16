@@ -92,7 +92,10 @@ export class MlComponent implements OnInit {
   }
 
   paintCells(x: number, y:number) {
-    this.cells[x][y] = 1
+    this.cells[x][y] += .25
+    if (this.cells[x][y] > 1) {
+      this.cells[x][y] = 1
+    }
     this.paintBorderCell(x-1, y)
     this.paintBorderCell(x-1, y-1)
     this.paintBorderCell(x-1, y+1)
@@ -107,7 +110,7 @@ export class MlComponent implements OnInit {
     if (x < 0 || y < 0 || x > 27 || y > 27) {
       return
     }
-    this.cells[x][y]+=.02
+    this.cells[x][y]+=.012
     if (this.cells[x][y] > 1) {
       this.cells[x][y] = 1
     }

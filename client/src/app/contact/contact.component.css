@@ -1,0 +1,32 @@
+.resume {
+    width: 832px;
+    height: 900px;
+}
+.me {
+    max-width: 400px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+@media only screen and (max-width: 750px) {
+    .me {
+        max-width: 200px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+  }
+
+.bio {
+    display: flex;
+    justify-content: space-between;
+}
+
+.icon {
+    width: 40px;
+}
+
+.content {
+    margin: auto;
+    max-width: 800px;
+    padding: 30px;
+    overflow-x: scroll;
+}
