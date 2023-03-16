@@ -6,8 +6,7 @@ import { L2mComponent } from './l2m-post/l2m.component';
 import { ChaosPostComponent } from './chaos-post/chaos-post.component';
 import { ThreeBodyPostComponent } from './three-body-post/three-body-post.component';
 import { PostsComponent } from './posts.component';
-import { TemplatePostComponent } from './template-post/template.component';
-import { GradientDescentPostComponent } from './gradient-descent-post/gradient-descent-post.component';
+import { HelloMlPostComponent } from './hello-ml-post/hello-ml-post.component'
 
 
 
@@ -18,8 +17,7 @@ import { GradientDescentPostComponent } from './gradient-descent-post/gradient-d
     ChaosPostComponent,
     ThreeBodyPostComponent,
     PostsComponent,
-    TemplatePostComponent,
-    GradientDescentPostComponent,
+    HelloMlPostComponent,
   ],
   imports: [
     CommonModule,
