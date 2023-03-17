@@ -82,13 +82,6 @@ router.get('/api/allRestData', async (req, res) => {
     res.send(data);
 })
 
-router.get('/api/updateCache', async (req, res) => {
-    res.type('text');
-    res.status(200);
-    nba.updateAllCache()
-    res.send('update started');
-})
-
 router.get('/api/ml', async (req, res) => {
     res.type('blob');
     res.status(200);
