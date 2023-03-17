@@ -8,6 +8,9 @@
     </div>
     <div class="p2t-date">{{format(post.date)}}</div>
     <div class="p2t-blog-content">
+        <div>
+            <svg width=700 height=200 id="chart"></svg>
+        </div>
         <div class="search-holder"> 
             <input type="text" class="search"
             placeholder="Search for players"
@@ -18,7 +21,7 @@
         <div class="search-results" *ngIf="isSearchFocus">
             <button *ngFor="let player of filteredPlayers" 
                 (click)="onPlayerClick(player)">
-                {{player.DISPLAY_FIRST_LAST}}
+                {{player.name}}
             </button>
         </div>
         <div>
@@ -29,37 +32,41 @@
                     <th>Days Rest</th>
                     <th>Points</th>
                     <th>Delta from season avg</th>
+                    <th>GP</th>
                   </tr>
                 <tr>
                     <td>0</td>
-                    <td>{{currentPlayerData.ptsZero}}</td>
-                    <td [ngClass]="{'red': isRed(currentPlayerData.ptsZero)}">
-                        {{round(currentPlayerData.ptsZero - currentPlayerData.ptsSeason)}}
+                    <td>{{currentPlayerData.ptsRest[0]}}</td>
+                    <td [ngClass]="{'red': isRed(currentPlayerData.ptsRest[0])}">
+                        {{round(currentPlayerData.ptsRest[0] - currentPlayerData.ptsSeason)}}
                     </td>
+                    <td>{{currentPlayerData.gpRest[0]}}</td>
                 </tr>
                 <tr>
                     <td>1</td>
-                    <td>{{currentPlayerData.ptsOne}}</td>
-                    <td [ngClass]="{'red': isRed(currentPlayerData.ptsOne)}">
-                        {{round(currentPlayerData.ptsOne - currentPlayerData.ptsSeason)}}
+                    <td>{{currentPlayerData.ptsRest[1]}}</td>
+                    <td [ngClass]="{'red': isRed(currentPlayerData.ptsRest[1])}">
+                        {{round(currentPlayerData.ptsRest[1] - currentPlayerData.ptsSeason)}}
                     </td>
+                    <td>{{currentPlayerData.gpRest[1]}}</td>
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td>{{currentPlayerData.ptsTwo}}</td>
-                    <td [ngClass]="{'red': isRed(currentPlayerData.ptsTwo)}">
-                        {{round(currentPlayerData.ptsTwo - currentPlayerData.ptsSeason)}}
+                    <td>{{currentPlayerData.ptsRest[2]}}</td>
+                    <td [ngClass]="{'red': isRed(currentPlayerData.ptsRest[2])}">
+                        {{round(currentPlayerData.ptsRest[2] - currentPlayerData.ptsSeason)}}
                     </td>
+                    <td>{{currentPlayerData.gpRest[2]}}</td>
                 </tr>
                 <tr>
                     <td>3+</td>
-                    <td>{{currentPlayerData.ptsThreePlus}}</td>
-                    <td [ngClass]="{'red': isRed(currentPlayerData.ptsThreePlus)}">
-                        {{round(currentPlayerData.ptsThreePlus - currentPlayerData.ptsSeason)}}
+                    <td>{{round(currentPlayerData.ptsRest[3])}}</td>
+                    <td [ngClass]="{'red': isRed(currentPlayerData.ptsRest[3])}">
+                        {{round(currentPlayerData.ptsRest[3] - currentPlayerData.ptsSeason)}}
                     </td>
+                    <td>{{currentPlayerData.gpRest[3]}}</td>
                 </tr>
                 <tr>
-                    
                 </tr>
             </table>
         </div>

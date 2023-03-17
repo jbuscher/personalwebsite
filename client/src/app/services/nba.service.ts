@@ -9,8 +9,9 @@ import { L2mRow } from '../types/types';
 export class NbaService {
     private l2mUrl = '/api/lasttwo';
     private teamsUrl = '/api/teams';
-    private playersUrl = '/api/players'
-    private restDataUrl = 'api/restData'
+    private playersUrl = '/api/players';
+    private restDataUrl = 'api/restData';
+    private allRestDataUrl = 'api/allRestData';
 
     constructor(
         private http: HttpClient) { }
@@ -33,5 +34,10 @@ export class NbaService {
   getRestData(playerId:number) {
     let season = "2022-23"
     return this.http.get<any>(this.restDataUrl + "?playerId=" + playerId + "&season=" + season);
+  }
+
+  getAllRestData() {
+    let season = "2022-23"
+    return this.http.get<any>(this.allRestDataUrl + "?season=" + season);
   }
 }
