@@ -44,7 +44,7 @@ export class NbaRestDaysPostComponent extends BlogPost implements OnInit {
     });
     nbaService.getAllRestData().subscribe(d => {
       this.allRestData = d.restData
-      this.draw()
+      //this.draw()
     })
    }
 
