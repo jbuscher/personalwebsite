@@ -10,12 +10,13 @@ class Nba {
     }
 
     async updateAllCache() {
-        
+        console.log('updating all cache')
         let d = await this.allPlayerIds(null);
         let players = d.players
         for (let i = 0; i < players.length; i++) {
             try {
                 await this.getPlayerRestData(players[i].id + '', null)
+                console.log('updated', i, players.length, players[i].id)
             } catch (e) {
                 console.log("error for", i)
             }
@@ -43,7 +44,7 @@ class Nba {
         try {
             cache = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
         } catch(e) {
-            console.log('cache miss', e)
+            console.log('cache miss')
             // no file is fine
         }
 
