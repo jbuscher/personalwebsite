@@ -70,7 +70,7 @@ router.get('/api/restData', async (req, res) => {
     res.status(200);
     let season = req.query.season
     let playerId = req.query.playerId
-    let data = await nba.getPlayerRestData(playerId, null);
+    let data = await nba.getPlayerRestData(playerId, season);
     res.send(data);
 })
 
