@@ -2,7 +2,7 @@ const express = require('express'),
       path = require('path'),
       cors = require('cors'),
       routes = require('./routes');
-
+      Nba = require('./nba');
 
 var isProd = process.env.NODE_ENV === 'production';
 console.log( process.env.NODE_ENV)

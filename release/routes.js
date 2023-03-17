@@ -3,8 +3,8 @@ var router = require('express').Router();
 var isProd = process.env.NODE_ENV === 'production';
 var bodyParser = require('body-parser');
 router.use(bodyParser.json())
-const LocalDb = require('./localDb');
-const db = new LocalDb();
+const Nba = require('./nba');
+const nba = new Nba();
 const Ml = require('./ml/ml');
 const ml = new Ml();
 const publicPath = isProd ? path.join(__dirname, 'public'):  path.join(__dirname, '..', 'client', 'dist', 'ang-personal-website');
@@ -43,13 +43,6 @@ router.get('/api/hello', (req, res) => {
     res.send({text:'Jello World!'});
 })
 
-router.get('/api/lasttwo', async (req, res) => {
-    res.type('json');
-    res.status(200);
-    let data = await db.find({})
-    res.send(data);
-})
-
 router.get('/api/teams', async (req, res) => {
     let fields = req.query.fields;
     let query = {};
@@ -68,7 +61,16 @@ router.get('/api/teams', async (req, res) => {
 router.get('/api/players', async (req, res) => {
     res.type('json');
     res.status(200);
-    let data = await db.find({"nbaData.game.Home_team": "Celtics"})
+    let season = req.query.season
+    let data = await nba.allPlayerIds(season);
+    res.send(data);
+})
+router.get('/api/restData', async (req, res) => {
+    res.type('json');
+    res.status(200);
+    let season = req.query.season
+    let playerId = req.query.playerId
+    let data = await nba.getPlayerRestData(playerId, null);
     res.send(data);
 })
 
