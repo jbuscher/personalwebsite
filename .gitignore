@@ -52,3 +52,4 @@ testem.log
 Thumbs.db
 
 misc_scripts/data/
+/server/nbaDataCache

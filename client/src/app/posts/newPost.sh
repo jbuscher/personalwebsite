@@ -23,9 +23,9 @@ mv template.component.html "${mydir}.component.html"
 mv template.component.ts "${mydir}.component.ts"
 tsfile="${mydir}.component.ts"
 
-sed -i.bak "s/template-post/${skewer}/g" $tsfile && rm $tsfile.bak
+sed -i.bak "s/template/${skewer}/g" $tsfile && rm $tsfile.bak
 sed -i.bak "s/TEMPLATE_POST/${constCase}/g" $tsfile && rm $tsfile.bak
-sed -i.bak "s/TemplatePost/${pascalCase}/g" $tsfile && rm $tsfile.bak
+sed -i.bak "s/Template/${pascalCase}/g" $tsfile && rm $tsfile.bak
 popd
 
 popd

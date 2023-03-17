@@ -7,6 +7,7 @@ import { ChaosPostComponent } from './chaos-post/chaos-post.component';
 import { ThreeBodyPostComponent } from './three-body-post/three-body-post.component';
 import { PostsComponent } from './posts.component';
 import { HelloMlPostComponent } from './hello-ml-post/hello-ml-post.component'
+import { NbaRestDaysPostComponent } from './nba-rest-days-post/nba-rest-days-post.component';
 
 
 
@@ -18,6 +19,7 @@ import { HelloMlPostComponent } from './hello-ml-post/hello-ml-post.component'
     ThreeBodyPostComponent,
     PostsComponent,
     HelloMlPostComponent,
+    NbaRestDaysPostComponent
   ],
   imports: [
     CommonModule,

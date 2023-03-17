@@ -1,0 +1,67 @@
+<div class="p2t-all-content">
+    <div class="p2t-header">{{post.title}}</div>
+    <div class="p2t-tags">
+        <button *ngFor="let tag of post.tags" 
+             class="post-tag"
+             [ngClass]="getTagClass(tag)" 
+             (click)="onTagClick(tag, this.router)">{{tag}}</button>
+    </div>
+    <div class="p2t-date">{{format(post.date)}}</div>
+    <div class="p2t-blog-content">
+        <div class="search-holder"> 
+            <input type="text" class="search"
+            placeholder="Search for players"
+            (keyup)="filterItem($event)"
+            (focus)="focusChange(true)">
+            <button *ngIf="isSearchFocus" (click)="focusChange(false)">x</button>
+        </div>
+        <div class="search-results" *ngIf="isSearchFocus">
+            <button *ngFor="let player of filteredPlayers" 
+                (click)="onPlayerClick(player)">
+                {{player.DISPLAY_FIRST_LAST}}
+            </button>
+        </div>
+        <div>
+            <div>{{currentPlayerData.name}}</div>
+            <img class="loading" *ngIf="isLoading" src="assets/loading.gif">
+            <table *ngIf="!isLoading && currentPlayerData.name != ''">
+                <tr>
+                    <th>Days Rest</th>
+                    <th>Points</th>
+                    <th>Delta from season avg</th>
+                  </tr>
+                <tr>
+                    <td>0</td>
+                    <td>{{currentPlayerData.ptsZero}}</td>
+                    <td [ngClass]="{'red': isRed(currentPlayerData.ptsZero)}">
+                        {{round(currentPlayerData.ptsZero - currentPlayerData.ptsSeason)}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>{{currentPlayerData.ptsOne}}</td>
+                    <td [ngClass]="{'red': isRed(currentPlayerData.ptsOne)}">
+                        {{round(currentPlayerData.ptsOne - currentPlayerData.ptsSeason)}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>{{currentPlayerData.ptsTwo}}</td>
+                    <td [ngClass]="{'red': isRed(currentPlayerData.ptsTwo)}">
+                        {{round(currentPlayerData.ptsTwo - currentPlayerData.ptsSeason)}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>3+</td>
+                    <td>{{currentPlayerData.ptsThreePlus}}</td>
+                    <td [ngClass]="{'red': isRed(currentPlayerData.ptsThreePlus)}">
+                        {{round(currentPlayerData.ptsThreePlus - currentPlayerData.ptsSeason)}}
+                    </td>
+                </tr>
+                <tr>
+                    
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

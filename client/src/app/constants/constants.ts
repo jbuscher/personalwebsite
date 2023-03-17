@@ -9,12 +9,20 @@ export const TAGS = {
     SCIENCE: "SCIENCE"
 }
 
+export const NBA_REST_DAYS = "Nba Rest Days (in progress)"
 export const HELLO_ML = "Hello ML"
 export const CHAOS = "Chaos Game"
 export const L2M = "Last Two Minutes (TODO)"
 export const THREE_BODY = "The Three Body Problem (TODO)"
   
 export const POSTS: PostListing[] = [
+  {
+    date: "2023-03-16",
+    title: NBA_REST_DAYS,
+    iconPath: "assets/tbd.png",
+    route:   { path: 'nbaRestDays' },
+    tags:[TAGS.NBA, TAGS.DATA_VIZ]
+  },
   {
     date: "2023-02-08",
     title: HELLO_ML,

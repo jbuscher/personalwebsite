@@ -6,6 +6,7 @@ import { PostsComponent } from './posts.component';
 import { ChaosPostComponent } from './chaos-post/chaos-post.component';
 import { ThreeBodyPostComponent } from './three-body-post/three-body-post.component';
 import { HelloMlPostComponent } from './hello-ml-post/hello-ml-post.component';
+import { NbaRestDaysPostComponent } from './nba-rest-days-post/nba-rest-days-post.component';
 
 
 const routes: Routes = [
@@ -14,7 +15,8 @@ const routes: Routes = [
   { path: 'posts/l2m', component: L2mComponent },
   { path: 'posts/chaos', component: ChaosPostComponent },
   { path: 'posts/threeBody', component: ThreeBodyPostComponent },
-  { path: 'posts/helloMl', component: HelloMlPostComponent }];
+  { path: 'posts/helloMl', component: HelloMlPostComponent },
+  { path: 'posts/nbaRestDays', component: NbaRestDaysPostComponent }];
 
 
 

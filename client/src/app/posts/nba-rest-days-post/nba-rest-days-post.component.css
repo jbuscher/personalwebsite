@@ -1,0 +1,49 @@
+.search-holder {
+    display: flex;
+}
+
+.search-holder button {
+    width: 50px;
+    font-size: 26pt;
+    font-weight: 800;
+}
+
+.search-results {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+}
+
+.search-results button {
+    width: 200px;
+    height: 60px;
+}
+.loading {
+    width: 40px;
+}
+.red {
+    color: red
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+button {
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background-color: rgb(237, 237, 255);
+    border: none;
+    cursor: pointer;
+}
