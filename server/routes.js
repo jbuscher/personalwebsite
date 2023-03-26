@@ -75,6 +75,7 @@ router.get('/api/test', async (req, res) => {
     } catch (e) {
         console.error(e);
         res.sendStatus(500);
+        return;
     }
     res.status(200);
     res.send(data);

@@ -1,15 +1,19 @@
 const { Client } = require('pg');
+const fs = require('fs');
 
 class DatabaseClient {
   constructor() {
     const { PGHOST, PGPORT, PGDATABASE, PGUSER, PGPASSWORD } = process.env;
-    this.client = new Client({
-      host: PGHOST,
-      port: PGPORT,
-      database: PGDATABASE,
-      user: PGUSER,
-      password: PGPASSWORD
-    });
+    const sslmode = process.env.NODE_ENV === 'production' ? '?sslmode=require' : '';
+    this.config = {
+      connectionString: `postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}${sslmode}`,
+    };
+    if (process.env.NODE_ENV === 'production') {
+      this.config.ssl = {
+        rejectUnauthorized: false,
+      }
+    }
+    console.log(this.config)
     this.client = null;
   }
 
