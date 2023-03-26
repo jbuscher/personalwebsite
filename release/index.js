@@ -5,7 +5,11 @@ const express = require('express'),
       Nba = require('./nba');
 
 var isProd = process.env.NODE_ENV === 'production';
-console.log( process.env.NODE_ENV)
+if (!isProd) {
+    require('dotenv').config();
+} else {
+    console.log("PRODUCTION MODE")
+}
 const publicPath = isProd ? path.join(__dirname, 'public'):  path.join(__dirname, '..', 'client', 'dist', 'ang-personal-website');
 
 var app = express();
