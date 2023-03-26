@@ -10,10 +10,10 @@ class DatabaseClient {
     };
     if (process.env.NODE_ENV === 'production') {
       this.config.ssl = {
-        rejectUnauthorized: false,
+        rejectUnauthorized: true,
+        ca: process.env.CA_CERT
       }
     }
-    console.log(this.config)
     this.client = null;
   }
 
