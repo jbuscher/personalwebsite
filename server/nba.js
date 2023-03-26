@@ -5,8 +5,8 @@ const { allPlayersList } = require('nba-api-client');
 
 const ONE_DAY = 86400000;
 class Nba {
-    constructor () {
-        
+    constructor (db) {
+        this.db = db
     }
 
     async updateAllCache() {
@@ -23,6 +23,18 @@ class Nba {
         }
     }
 
+    async getAllPlayers() {
+        try {
+            await this.db.connect();
+            const results = await this.db.query('SELECT * FROM nbaplayers');
+            return results
+          } catch (error) {
+            throw error;
+          } finally {
+            await this.db.disconnect();
+          }
+    }
+
     async allPlayerIds(season) {
         if (!season) {
             season = "2022-23"
@@ -30,7 +42,7 @@ class Nba {
         let players = []
         let d =  await _nba.allPlayersList({IsOnlyCurrentSeason: "1", Season: season})
         for (const [key, value] of Object.entries(d.CommonAllPlayers)) {
-            players.push({name:value.DISPLAY_FIRST_LAST, id: ''+value.PERSON_ID})
+            players.push(value)
         }
         return {players: players}
     }

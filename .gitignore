@@ -46,6 +46,8 @@ client/dist
 testem.log
 /typings
 /keys
+.env
+server/data.csv
 
 # System files
 .DS_Store

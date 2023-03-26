@@ -3,13 +3,15 @@ var router = require('express').Router();
 var isProd = process.env.NODE_ENV === 'production';
 var bodyParser = require('body-parser');
 router.use(bodyParser.json())
-const Nba = require('./nba');
-const nba = new Nba();
+
 const Ml = require('./ml/ml');
 const ml = new Ml();
 const publicPath = isProd ? path.join(__dirname, 'public'):  path.join(__dirname, '..', 'client', 'dist', 'ang-personal-website');
 
-
+const DatabaseClient = require('./DatabaseClient');
+const db = new DatabaseClient();
+const Nba = require('./nba');
+const nba = new Nba(db);
 
 router.get('/', (req, res) => {
     res.sendFile(path.join(publicPath,'index.html'));
@@ -63,6 +65,18 @@ router.get('/api/players', async (req, res) => {
     res.status(200);
     let season = req.query.season
     let data = await nba.allPlayerIds(season);
+    res.send(data);
+})
+router.get('/api/test', async (req, res) => {
+    res.type('json');
+    let data = null;
+    try {
+        data = await nba.getAllPlayers();
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+    }
+    res.status(200);
     res.send(data);
 })
 router.get('/api/restData', async (req, res) => {
