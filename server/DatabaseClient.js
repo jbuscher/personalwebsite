@@ -6,11 +6,11 @@ class DatabaseClient {
     const { PGHOST, PGPORT, PGDATABASE, PGUSER, PGPASSWORD } = process.env;
     const sslmode = process.env.NODE_ENV === 'production' ? '?sslmode=require' : '';
     this.config = {
-      connectionString: `postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}${sslmode}`,
+      connectionString: `postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}`,
     };
     if (process.env.NODE_ENV === 'production') {
       this.config.ssl = {
-        rejectUnauthorized: true,
+        rejectUnauthorized: false,
         ca: process.env.CA_CERT
       }
     }
