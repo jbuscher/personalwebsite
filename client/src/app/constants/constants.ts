@@ -19,7 +19,7 @@ export const POSTS: PostListing[] = [
   {
     date: "2023-03-16",
     title: NBA_REST_DAYS,
-    iconPath: "assets/tbd.png",
+    iconPath: "assets/restday.png",
     route:   { path: 'nbaRestDays' },
     tags:[TAGS.NBA, TAGS.DATA_VIZ]
   },

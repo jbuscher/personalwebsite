@@ -5,7 +5,6 @@ import { NbaService } from 'src/app/services/nba.service';
 import { PostListing } from 'src/app/types/types';
 import { BlogPost } from '../blogpost';
 import * as d3 from 'd3';
-import { ScaleOrdinal } from 'd3';
 
 
 @Component({
@@ -21,8 +20,13 @@ export class NbaRestDaysPostComponent extends BlogPost implements OnInit {
   players: any[];
   filteredPlayers: any[]
   allRestData: any[];
+  rawRestData: any[];
+  allStatOptions: string[];
   currentPlayerData: any
+  selectedStat: string = "pts"
 
+  min: number
+  max: number;
   constructor(router: Router,
     private nbaService: NbaService) {
     super();
@@ -31,6 +35,8 @@ export class NbaRestDaysPostComponent extends BlogPost implements OnInit {
     this.filteredPlayers = []
     this.players = []
     this.allRestData = []
+    this.rawRestData = []
+    this.allStatOptions = [];
     this.currentPlayerData = {
       name:"",
       ptsRest:[0,0,0,0],
@@ -38,12 +44,21 @@ export class NbaRestDaysPostComponent extends BlogPost implements OnInit {
       ptsSeason:0,
       totalGames:0
     }
+    this.min = -10;
+    this.max = 10;
 
     nbaService.getPlayers().subscribe(d => {
       this.players = d
       this.filteredPlayers = this.players
       nbaService.getAllRestData().subscribe(d => {
-
+        this.rawRestData = d;
+        Object.keys(d[0]).forEach(k => {
+          if (k !== "id" && k !== "player_id" 
+              && k !== "rest_days" && k !== "gp"
+              && k !== "rest_label" && k !== "season") {
+            this.allStatOptions.push(k)
+          }
+        });
         this.allRestData = this.players.map(p => this.collatePlayerStats(p, d))
         this.draw()
       })
@@ -51,6 +66,15 @@ export class NbaRestDaysPostComponent extends BlogPost implements OnInit {
    }
 
   ngOnInit(): void {
+    
+  }
+
+  onStatChange() {
+    this.min = 0;
+    this.max = 0;
+    this.allRestData = this.players.map(p => this.collatePlayerStats(p, this.rawRestData, this.selectedStat))
+    this.draw()
+    this.currentPlayerData = this.allRestData.find(p => p.name === this.currentPlayerData.name)
   }
 
   isRed(ptsToCheck: number) {
@@ -62,7 +86,7 @@ export class NbaRestDaysPostComponent extends BlogPost implements OnInit {
     this.currentPlayerData = this.allRestData.find(p => p.name === playername)
   }
 
-  collatePlayerStats(player: any, restData:any) {
+  collatePlayerStats(player: any, restData:any, stat:string="pts") {
     let collatedStats = {
       name:"",
       ptsRest:[0,0,0,0],
@@ -77,21 +101,30 @@ export class NbaRestDaysPostComponent extends BlogPost implements OnInit {
 
     collatedStats.name = player.playername
     restData.filter((p:any) => p.player_id === player.id).forEach((d:any) => {
-      totalPoints += d.pts * d.gp
+      totalPoints += d[stat] * d.gp
       totalGames += d.gp
 
       if (d.rest_days < 3) {
-        collatedStats.ptsRest[d.rest_days] = d.pts;
+        collatedStats.ptsRest[d.rest_days] = d[stat];
         collatedStats.gpRest[d.rest_days] = d.gp;
       } else {
-        threePlusPoints += d.pts * d.gp
+        threePlusPoints += d[stat] * d.gp
         threePlusGames += d.gp
       }
     })
     collatedStats.ptsSeason = totalPoints / totalGames
     collatedStats.totalGames = totalGames;
     collatedStats.ptsRest[3] = threePlusPoints / threePlusGames
-    collatedStats.gpRest[3] = threePlusGames
+    collatedStats.gpRest[3] = threePlusGames;
+    
+    
+
+    for (let i = 0; i < 4; i++) {
+      if (collatedStats.gpRest[i] > 5 && !!(collatedStats.ptsRest[i] - collatedStats.ptsSeason)) {
+        this.min = Math.min(this.min, collatedStats.ptsRest[i] - collatedStats.ptsSeason)
+        this.max = Math.max(this.max, collatedStats.ptsRest[i] - collatedStats.ptsSeason)
+      }
+    }
     return collatedStats;
   }
 
@@ -121,15 +154,13 @@ export class NbaRestDaysPostComponent extends BlogPost implements OnInit {
 
   draw() {
     const width = 800;
-    const height = 400;
+    const height = 200;
     const margin = { top: 20, right: 20, bottom: 50, left: 50 };
     let data= this.allRestData
 
-    const maxVal = 10//d3.max(data.filter(d => d.totalGames > 5), d => d3.max(d.ptsRest, (f:number) => f - d.ptsSeason))
-    const minVal = -10//d3.min(data.filter(d => d.totalGames > 5), d => d3.min(d.ptsRest, (f:number) => f - d.ptsSeason))
     const xScale = d3.scaleLinear()
       .domain(
-        [minVal as any, maxVal as any])
+        [this.min*1.2, this.max*1.2])
       .range([margin.left, width - margin.right]);
 
     const yScale = d3.scaleLinear()
@@ -147,6 +178,8 @@ export class NbaRestDaysPostComponent extends BlogPost implements OnInit {
     const svg = d3.select("#chart")
       .attr("width", width)
       .attr("height", height);
+    svg.selectAll('*').remove();
+
 
     svg.append("g")
       .call(xAxis);
@@ -179,7 +212,6 @@ export class NbaRestDaysPostComponent extends BlogPost implements OnInit {
             .attr("width", 2)
             .attr("height", 15)
             .append("title");
-            // .text(`${player.name} - ${i} day(s) rest: ${player.ptsRest[i]} PPG`);
         }
       }
     }
@@ -189,8 +221,8 @@ export class NbaRestDaysPostComponent extends BlogPost implements OnInit {
     let tooltip = document.getElementById("tooltip")!;
     tooltip.style.visibility = "visible";
     tooltip.style.position = "absolute";
-    tooltip.style.top = e.pageY - 40 + "px"
-    tooltip.style.left = e.pageX-50 + "px"
+    tooltip.style.top = e.pageY - 30 + "px"
+    tooltip.style.left = e.pageX - 50 + "px"
     tooltip.innerHTML = playername + " " + this.round(diff)
   }
 

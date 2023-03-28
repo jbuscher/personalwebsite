@@ -8,6 +8,7 @@ import { ThreeBodyPostComponent } from './three-body-post/three-body-post.compon
 import { PostsComponent } from './posts.component';
 import { HelloMlPostComponent } from './hello-ml-post/hello-ml-post.component'
 import { NbaRestDaysPostComponent } from './nba-rest-days-post/nba-rest-days-post.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -23,7 +24,8 @@ import { NbaRestDaysPostComponent } from './nba-rest-days-post/nba-rest-days-pos
   ],
   imports: [
     CommonModule,
-    PostsRoutingModule
+    PostsRoutingModule,
+    FormsModule
   ]
 })
 export class PostsModule { }

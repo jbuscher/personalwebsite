@@ -9,18 +9,27 @@
     <div class="p2t-date">{{format(post.date)}}</div>
     <div class="p2t-blog-content">
 
-        <div class="search-holder"> 
-            <input type="text" class="search"
-            placeholder="Search for players"
-            (keyup)="filterItem($event)"
-            (focus)="focusChange(true)">
-            <button *ngIf="isSearchFocus" (click)="focusChange(false)">x</button>
-        </div>
-        <div class="search-results" *ngIf="isSearchFocus">
-            <button *ngFor="let player of filteredPlayers" 
-                (click)="onPlayerClick(player.playername)">
-                {{player.playername}}
-            </button>
+        <div class="input-header">
+            <div class="search-holder"> 
+                <input type="text" class="search"
+                placeholder="Search for players"
+                (keyup)="filterItem($event)"
+                (focus)="focusChange(true)">
+                <button *ngIf="isSearchFocus" (click)="focusChange(false)">x</button>
+            </div>
+            <div class="search-results" *ngIf="isSearchFocus">
+                <button *ngFor="let player of filteredPlayers" 
+                    (click)="onPlayerClick(player.playername)">
+                    {{player.playername}}
+                </button>
+            </div>
+            <div>
+                <select id='stats' name='stats' [(ngModel)]="selectedStat" (change)="onStatChange()">
+                    <option *ngFor="let item of allStatOptions" [value]="item">
+                      {{item}}
+                    </option>    
+                </select>
+            </div>
         </div>
         <div>
             <svg id="chart"></svg>
@@ -32,7 +41,7 @@
             <table *ngIf="!isLoading && currentPlayerData.name != ''">
                 <tr>
                     <th>Days Rest</th>
-                    <th>Points</th>
+                    <th>{{selectedStat}}</th>
                     <th>Delta from season avg</th>
                     <th>GP</th>
                   </tr>
