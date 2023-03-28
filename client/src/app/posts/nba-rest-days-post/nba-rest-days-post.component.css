@@ -1,5 +1,6 @@
 .search-holder {
     display: flex;
+    margin-bottom: 12px;
 }
 
 .search-holder button {
@@ -11,12 +12,13 @@
 .search-results {
     display: flex;
     flex-direction: column;
-    position: fixed;
+    position: absolute;
 }
 
 .search-results button {
     width: 200px;
     height: 60px;
+    cursor: pointer;
 }
 .loading {
     width: 40px;
@@ -46,4 +48,9 @@ button:hover {
     background-color: rgb(237, 237, 255);
     border: none;
     cursor: pointer;
+}
+
+#tooltip {
+    position: absolute;
+    visibility: hidden;
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { NBA_REST_DAYS, POSTS } from 'src/app/constants/constants';
 import { NbaService } from 'src/app/services/nba.service';
@@ -11,7 +11,7 @@ import { ScaleOrdinal } from 'd3';
 @Component({
   selector: 'app-nba-rest-days-post',
   templateUrl: './nba-rest-days-post.component.html',
-  styleUrls: ['./nba-rest-days-post.component.css', '../posts.component.css']
+  styleUrls: ['./nba-rest-days-post.component.css', '../posts.component.css'],
 })
 export class NbaRestDaysPostComponent extends BlogPost implements OnInit {
   post: PostListing;
@@ -36,16 +36,18 @@ export class NbaRestDaysPostComponent extends BlogPost implements OnInit {
       ptsRest:[0,0,0,0],
       gpRest:[0,0,0,0],
       ptsSeason:0,
+      totalGames:0
     }
 
     nbaService.getPlayers().subscribe(d => {
-      this.players = d.players
+      this.players = d
       this.filteredPlayers = this.players
+      nbaService.getAllRestData().subscribe(d => {
+
+        this.allRestData = this.players.map(p => this.collatePlayerStats(p, d))
+        this.draw()
+      })
     });
-    nbaService.getAllRestData().subscribe(d => {
-      this.allRestData = d.restData
-      //this.draw()
-    })
    }
 
   ngOnInit(): void {
@@ -55,32 +57,42 @@ export class NbaRestDaysPostComponent extends BlogPost implements OnInit {
     return ptsToCheck < this.currentPlayerData.ptsSeason;
   }
 
-  onPlayerClick(player: any) {
+  onPlayerClick(playername: any) {
     this.isSearchFocus = false;
-    this.isLoading = true;
-    this.nbaService.getRestData(player.id).subscribe(d => {
-      this.isLoading = false
-      this.currentPlayerData.name = player.name
-      this.currentPlayerData.ptsSeason = d.OverallPlayerDashboard.PTS
-      this.currentPlayerData.ptsRest[0] = d.DaysRestPlayerDashboard["0"].PTS
-      this.currentPlayerData.ptsRest[1] = d.DaysRestPlayerDashboard["1"].PTS
-      this.currentPlayerData.ptsRest[2] = d.DaysRestPlayerDashboard["2"].PTS
-      this.currentPlayerData.gpRest[0] = d.DaysRestPlayerDashboard["0"].GP
-      this.currentPlayerData.gpRest[1] = d.DaysRestPlayerDashboard["1"].GP
-      this.currentPlayerData.gpRest[2] = d.DaysRestPlayerDashboard["2"].GP
+    this.currentPlayerData = this.allRestData.find(p => p.name === playername)
+  }
 
-      let ptsTotal = 0;
-      let gameTotal = 0;
-      for (const [key, value] of Object.entries(d.DaysRestPlayerDashboard)) {
-        if (key == "0" || key == "1" || key == "2") {
-          continue;
-        }
-        ptsTotal += (value as any).PTS * (value as any).GP
-        gameTotal += (value as any).GP
+  collatePlayerStats(player: any, restData:any) {
+    let collatedStats = {
+      name:"",
+      ptsRest:[0,0,0,0],
+      gpRest:[0,0,0,0],
+      ptsSeason:0,
+      totalGames:0,
+    }
+    let totalPoints = 0;
+    let totalGames = 0;
+    let threePlusPoints = 0; // for 3 or more days rest
+    let threePlusGames = 0;
+
+    collatedStats.name = player.playername
+    restData.filter((p:any) => p.player_id === player.id).forEach((d:any) => {
+      totalPoints += d.pts * d.gp
+      totalGames += d.gp
+
+      if (d.rest_days < 3) {
+        collatedStats.ptsRest[d.rest_days] = d.pts;
+        collatedStats.gpRest[d.rest_days] = d.gp;
+      } else {
+        threePlusPoints += d.pts * d.gp
+        threePlusGames += d.gp
       }
-      this.currentPlayerData.ptsRest[3] = ptsTotal / gameTotal
-      this.currentPlayerData.gpRest[3] = gameTotal
     })
+    collatedStats.ptsSeason = totalPoints / totalGames
+    collatedStats.totalGames = totalGames;
+    collatedStats.ptsRest[3] = threePlusPoints / threePlusGames
+    collatedStats.gpRest[3] = threePlusGames
+    return collatedStats;
   }
 
   round(num: number) {
@@ -96,7 +108,7 @@ export class NbaRestDaysPostComponent extends BlogPost implements OnInit {
         this.filteredPlayers = this.players
     } 
     this.filteredPlayers = this.players.filter(
-       (d:any) => d.name.toLowerCase().includes(value)
+       (d:any) => d.playername.toLowerCase().includes(value)
     )
  }
 
@@ -104,106 +116,86 @@ export class NbaRestDaysPostComponent extends BlogPost implements OnInit {
   this.currentPlayerData.ptsRest = d.ptsRest
   this.currentPlayerData.ptsSeason = d.ptsSeason
   this.currentPlayerData.gpRest = d.gpRest
-  console.log(d, this.players)
   this.currentPlayerData.name = this.players.find(p => ''+p.id == ''+d.id).name
  }
 
- draw() {
-  let svg = d3.select("#chart"),
-      margin = {top: 20, right: 20, bottom: 50, left: 50},
-      width = +svg.attr("width") - margin.left - margin.right,
-      height = +svg.attr("height") - margin.top - margin.bottom,
-      lineDistance = 25;
-    svg.selectAll("*").remove()
+  draw() {
+    const width = 800;
+    const height = 400;
+    const margin = { top: 20, right: 20, bottom: 50, left: 50 };
+    let data= this.allRestData
 
-  // add scales
-  let x = d3.scaleLinear().rangeRound([0, width]);
+    const maxVal = 10//d3.max(data.filter(d => d.totalGames > 5), d => d3.max(d.ptsRest, (f:number) => f - d.ptsSeason))
+    const minVal = -10//d3.min(data.filter(d => d.totalGames > 5), d => d3.min(d.ptsRest, (f:number) => f - d.ptsSeason))
+    const xScale = d3.scaleLinear()
+      .domain(
+        [minVal as any, maxVal as any])
+      .range([margin.left, width - margin.right]);
 
-  // add chart
-  let chart = svg.append("g")
-      .attr("transform", "translate("+margin.left+","+margin.top+")");
+    const yScale = d3.scaleLinear()
+      .domain([0, 3])
+      .range([height - margin.bottom, margin.top]);
 
-  let data = this.allRestData
-  x.domain([-10, 10])
+    const xAxis = (g:any) => g
+      .attr("transform", `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(xScale).ticks(width / 80).tickSizeOuter(0));
 
+    const yAxis = (g:any) => g
+      .attr("transform", `translate(${margin.left},0)`)
+      .call(d3.axisLeft(yScale).ticks(4).tickSizeOuter(0));
 
-  chart.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
+    const svg = d3.select("#chart")
+      .attr("width", width)
+      .attr("height", height);
 
-  var lineGroup0 = chart.append("g")
-      .attr("id", "lineGroup")
-      .attr("transform", "translate(0,"+(height-lineDistance)+")");
-  var lineGroup1 = chart.append("g")
-      .attr("id", "lineGroup")
-      .attr("transform", "translate(0,"+(height-lineDistance*2)+")");
-  var lineGroup2 = chart.append("g")
-      .attr("id", "lineGroup")
-      .attr("transform", "translate(0,"+(height-lineDistance*3)+")");
-  var lineGroup3 = chart.append("g")
-      .attr("id", "lineGroup")
-      .attr("transform", "translate(0,"+(height-lineDistance*4)+")");
+    svg.append("g")
+      .call(xAxis);
 
-  let that = this
-    lineGroup0.selectAll(".line-marker")
-        .data(data.filter(d => d.gpRest[0] > 5))
-        .enter().append("rect")
-        .attr("class", "line-marker")
-        .attr("x", function(d) { return x(d.ptsRest[0] - d.ptsSeason); })
-        .attr("y", -10)
-        .attr("width", 2)
-        .attr("height", 15)
-        .attr("stroke-width", "4px")
-        .attr("fill", "steelblue")
-        .on('mouseover', function(e, d) {
-          that.updateCurrentPlayer(d)
-        })
-        .style("cursor", "pointer");
+    svg.append("g")
+      .call(yAxis);
 
-    lineGroup1.selectAll(".line-marker")
-      .data(data.filter(d => d.gpRest[1] > 5))
-        .enter().append("rect")
-        .attr("class", "line-marker")
-        .attr("x", function(d) { return x(d.ptsRest[1] - d.ptsSeason); })
-        .attr("y", -10)
-        .attr("width", 2)
-        .attr("height", 15)
-        .attr("stroke-width", "4px")
-        .attr("fill", "green")
-        .on('mouseover', function(e, d) {
-          that.updateCurrentPlayer(d)
-        })
-        .style("cursor", "pointer");
-    
-    lineGroup2.selectAll(".line-marker")
-        .data(data.filter(d => d.gpRest[2] > 5))
-          .enter().append("rect")
-          .attr("class", "line-marker")
-          .attr("x", function(d) { return x(d.ptsRest[2] - d.ptsSeason); })
-          .attr("y", -10)
-          .attr("width", 2)
-          .attr("height", 15)
-          .attr("stroke-width", "4px")
-          .attr("fill", "orange")
-          .on('mouseover', function(e, d) {
-            that.updateCurrentPlayer(d)
-          })
-          .style("cursor", "pointer");
-  
-   lineGroup3.selectAll(".line-marker")
-          .data(data.filter(d => d.gpRest[3] > 5))
-            .enter().append("rect")
-            .attr("class", "line-marker")
-            .attr("x", function(d) { return x(d.ptsRest[3] - d.ptsSeason); })
-            .attr("y", -10)
+      let that = this;
+    for (let player of data) {
+      if (player.ptsSeason < 5) {
+        continue;
+      }
+      for (let i = 0; i < player.ptsRest.length; i++) {
+        if (player.gpRest[i] >= 5) {
+          svg.append("rect")
+            .attr("style", "cursor:pointer")
+            .attr("fill", "steelblue")
+            .on("mouseover", function(e) {
+              this.style.fill="red"
+              that.showTooltip(e,player.name, player.ptsRest[i] - player.ptsSeason)
+            })
+            .on("mouseout", function() {
+              this.style.fill="steelblue"
+              that.hideTooltip();
+            })
+            .on("click", ()=> this.onPlayerClick(player.name))
+            
+            .attr("x", xScale(player.ptsRest[i] - player.ptsSeason))
+            .attr("y", yScale(i)-20)
             .attr("width", 2)
             .attr("height", 15)
-            .attr("stroke-width", "4px")
-            .attr("fill", "purple")
-            .on('mouseover', function(e, d) {
-              that.updateCurrentPlayer(d)
-            })
-            .style("cursor", "pointer");
- }
+            .append("title");
+            // .text(`${player.name} - ${i} day(s) rest: ${player.ptsRest[i]} PPG`);
+        }
+      }
+    }
+  }
+
+  showTooltip(e:MouseEvent, playername:any, diff:any) {
+    let tooltip = document.getElementById("tooltip")!;
+    tooltip.style.visibility = "visible";
+    tooltip.style.position = "absolute";
+    tooltip.style.top = e.pageY - 40 + "px"
+    tooltip.style.left = e.pageX-50 + "px"
+    tooltip.innerHTML = playername + " " + this.round(diff)
+  }
+
+  hideTooltip() {
+    let tooltip = document.getElementById("tooltip")!;
+    tooltip.style.visibility = "hidden";
+  }
 }

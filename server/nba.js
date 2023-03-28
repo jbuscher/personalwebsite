@@ -2,40 +2,56 @@ const _nba = require('nba-api-client');
 const fs = require('fs');
 const path = require('path');
 const { allPlayersList } = require('nba-api-client');
+const DatabaseClient = require('./DatabaseClient');
 
-const ONE_DAY = 86400000;
 class Nba {
-    constructor (db) {
-        this.db = db
-    }
-
-    async updateAllCache() {
-        console.log('updating all cache')
-        let d = await this.allPlayerIds(null);
-        let players = d.players
-        for (let i = 0; i < players.length; i++) {
-            try {
-                await this.getPlayerRestData(players[i].id + '', null)
-                console.log('updated', i, players.length, players[i].id)
-            } catch (e) {
-                console.log("error for", i)
-            }
-        }
+    constructor () {
     }
 
     async getAllPlayers() {
+        const db2 = new DatabaseClient();
+        let results;
         try {
-            await this.db.connect();
-            const results = await this.db.query('SELECT * FROM nbaplayers');
-            return results
-          } catch (error) {
+            await db2.connect();
+            results = await db2.query('SELECT * FROM nbaplayers');
+        } catch (error) {
             throw error;
-          } finally {
-            await this.db.disconnect();
-          }
+        } finally {
+            db2.disconnect();
+        }
+        return results
+
     }
 
-    async allPlayerIds(season) {
+    // async function that takes a player id, and returns the rest data for that player
+    // fetching it from the database. If no player id is given, then return all data from
+    // the database
+    async getPlayerRestData(season, playerId) {
+        if (!season) {
+            season = "2022-23"
+        }
+        let results;
+        const db2 = new DatabaseClient();
+        try {
+            await db2.connect();
+            let query = "";
+            
+            if (!playerId) {
+                query = 'SELECT * FROM restdaystats WHERE season = $1';
+                results = await db2.query(query, [season]);
+            } else {
+                query = 'SELECT * FROM restdaystats WHERE player_id = $1 AND season = $2';
+                results = await db2.query(query, [playerId, season]);
+            }
+        } catch (error) {
+            throw error;
+        } finally {
+            db2.disconnect();
+        }
+        return results;
+    }
+
+    async NBA_SERVICE_allPlayerIds(season) {
         if (!season) {
             season = "2022-23"
         }
@@ -47,79 +63,19 @@ class Nba {
         return {players: players}
     }
 
-    async getPlayerRestData(playerId, season) {
+    async NBA_SERVICE_getPlayerRestData(playerId, season) {
         if (!season) {
             season = "2022-23"
         }
-        let filePath = path.join(__dirname, "nbaDataCache", "restData", season, playerId + ".json")
-        let cache = null;
-        try {
-            cache = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
-        } catch(e) {
-            console.log('cache miss')
-            // no file is fine
-        }
-
         let data;
-        if (cache != null) {
-            data = cache.data
-            if (Date.now() - cache.updateTimestamp > ONE_DAY) {
-                console.log("expired data")
-            }
-        }
-        if (cache == null || Date.now() - cache.updateTimestamp > ONE_DAY) {
-            console.log('updating cache')
-            try {
-                data = await _nba.playerSplits({PlayerID: playerId, Season: season})
-            } catch(e) {
-                console.log('error fetching playerid' + playerId)
-            }
-
-            fs.writeFileSync(filePath, JSON.stringify({updateTimestamp: Date.now(), data: data}))
+        
+        console.log('fetching playerid' + playerId )
+        try {
+            data = await _nba.playerSplits({PlayerID: playerId, Season: season})
+        } catch(e) {
+         console.log('error fetching playerid' + playerId)
         }
         return data
-    }
-
-    getAllRestDataFromCache(season) {
-        if (!season) {
-            season = "2022-23"
-        }
-        let data = []
-        let dirPath = path.join(__dirname, "nbaDataCache", "restData", season)
-        let filenames = fs.readdirSync(dirPath)
-        filenames.forEach(f => {
-            if (f.endsWith('json')) {
-            
-                let d = JSON.parse(fs.readFileSync(path.join(dirPath, f), 'utf-8')).data
-                if (d){
-                let player = {}
-                player.id = f.split('.')[0]
-                player.ptsSeason = d.OverallPlayerDashboard.PTS
-                player.ptsRest = [0,0,0,0]
-                player.gpRest = [0,0,0,0]
-                player.ptsRest[0] = d.DaysRestPlayerDashboard["0"] ? d.DaysRestPlayerDashboard["0"].PTS : 0
-                player.ptsRest[1] = d.DaysRestPlayerDashboard["1"] ? d.DaysRestPlayerDashboard["1"].PTS : 0
-                player.ptsRest[2] = d.DaysRestPlayerDashboard["2"] ? d.DaysRestPlayerDashboard["2"].PTS : 0
-                player.gpRest[0] = d.DaysRestPlayerDashboard["0"] ? d.DaysRestPlayerDashboard["0"].GP : 0
-                player.gpRest[1] = d.DaysRestPlayerDashboard["1"] ? d.DaysRestPlayerDashboard["1"].GP : 0
-                player.gpRest[2] = d.DaysRestPlayerDashboard["2"] ? d.DaysRestPlayerDashboard["2"].GP : 0
-        
-                let ptsTotal = 0;
-                let gameTotal = 0;
-                for (const [key, value] of Object.entries(d.DaysRestPlayerDashboard)) {
-                if (key == "0" || key == "1" || key == "2") {
-                    continue;
-                }
-                ptsTotal += value.PTS * value.GP
-                gameTotal += value.GP
-                }
-                player.ptsRest[3] = gameTotal > 0 ? ptsTotal / gameTotal : 0
-                player.gpRest[3] = gameTotal
-                data.push(player)
-            }
-            }
-        });
-        return {restData: data}
     }
 }
 

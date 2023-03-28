@@ -33,11 +33,11 @@ export class NbaService {
 
   getRestData(playerId:number) {
     let season = "2022-23"
-    return this.http.get<any>(this.restDataUrl + "?playerId=" + playerId + "&season=" + season);
+    return this.http.get<any>(this.restDataUrl + "?playerId=" + playerId);
   }
 
   getAllRestData() {
     let season = "2022-23"
-    return this.http.get<any>(this.allRestDataUrl + "?season=" + season);
+    return this.http.get<any>(this.restDataUrl);
   }
 }

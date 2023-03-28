@@ -8,9 +8,7 @@
     </div>
     <div class="p2t-date">{{format(post.date)}}</div>
     <div class="p2t-blog-content">
-        <!-- <div>
-            <svg width=700 height=200 id="chart"></svg>
-        </div> -->
+
         <div class="search-holder"> 
             <input type="text" class="search"
             placeholder="Search for players"
@@ -20,9 +18,13 @@
         </div>
         <div class="search-results" *ngIf="isSearchFocus">
             <button *ngFor="let player of filteredPlayers" 
-                (click)="onPlayerClick(player)">
-                {{player.name}}
+                (click)="onPlayerClick(player.playername)">
+                {{player.playername}}
             </button>
+        </div>
+        <div>
+            <svg id="chart"></svg>
+            <div id="tooltip" ></div>
         </div>
         <div>
             <div>{{currentPlayerData.name}}</div>
