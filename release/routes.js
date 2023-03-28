@@ -8,10 +8,8 @@ const Ml = require('./ml/ml');
 const ml = new Ml();
 const publicPath = isProd ? path.join(__dirname, 'public'):  path.join(__dirname, '..', 'client', 'dist', 'ang-personal-website');
 
-const DatabaseClient = require('./DatabaseClient');
-const db = new DatabaseClient();
 const Nba = require('./nba');
-const nba = new Nba(db);
+const nba = new Nba();
 
 router.get('/', (req, res) => {
     res.sendFile(path.join(publicPath,'index.html'));
@@ -45,33 +43,11 @@ router.get('/api/hello', (req, res) => {
     res.send({text:'Jello World!'});
 })
 
-router.get('/api/teams', async (req, res) => {
-    let fields = req.query.fields;
-    let query = {};
-    let project = {};
-    if (fields != null) {
-        fields.split(",").forEach(field => {
-            project[field] = 1;
-        });
-    }
-    let data = await db.getTeams(query, project);
-    res.type('json');
-    res.status(200);
-    res.send(data);
-})
-
 router.get('/api/players', async (req, res) => {
-    res.type('json');
-    res.status(200);
-    let season = req.query.season
-    let data = await nba.allPlayerIds(season);
-    res.send(data);
-})
-router.get('/api/test', async (req, res) => {
     res.type('json');
     let data = null;
     try {
-        data = await nba.getAllPlayers();
+        data = await nba.getAllPlayers()
     } catch (e) {
         console.error(e);
         res.sendStatus(500);
@@ -82,18 +58,17 @@ router.get('/api/test', async (req, res) => {
 })
 router.get('/api/restData', async (req, res) => {
     res.type('json');
-    res.status(200);
     let season = req.query.season
     let playerId = req.query.playerId
-    let data = await nba.getPlayerRestData(playerId, season);
-    res.send(data);
-})
-
-router.get('/api/allRestData', async (req, res) => {
-    res.type('json');
+    let data = null;
+    try {
+        data = await nba.getPlayerRestData(null, playerId);
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+        return;
+    }
     res.status(200);
-    let season = req.query.season
-    let data = nba.getAllRestDataFromCache(season);
     res.send(data);
 })
 
