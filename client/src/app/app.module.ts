@@ -14,6 +14,7 @@ import { ContactComponent } from './contact/contact.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { PostsModule } from './posts/posts.module';
 import { MlComponent } from './ml/ml.component';
+import { GolfComponent } from './golf/golf.component';
 
 
 
@@ -23,6 +24,7 @@ import { MlComponent } from './ml/ml.component';
     ContactComponent,
     ProjectsComponent,
     MlComponent,
+    GolfComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { MlService } from '../services/ml.service';
 import * as testdata from './temp/outTestData.json';
 
