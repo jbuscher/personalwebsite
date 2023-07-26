@@ -1,1 +1,14 @@
 <div>hello, golf</div>
+<input type="file" class="file-upload" onchange="console.log(event.target.files)">
+<!-- <canvas
+  (mousemove)="canvasMouseMove($event)"
+  (mousedown)="canvasMouseDown($event)"
+  (mouseup)="canvasMouseUp($event)"
+  >
+</canvas> -->
+<div>
+  <div id="wrapper"></div>
+</div>
+<button (click)="drawingManager?.clear()">clear</button>
+<p>x: {{drawingManager?.mouseVector?.x}}</p>
+<p>y: {{drawingManager?.mouseVector?.y}}</p>

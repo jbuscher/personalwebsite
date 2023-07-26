@@ -1,3 +1,8 @@
 div {
-    color: red;
+    color: blue;
+}
+
+#wrapper {
+    border: solid black 1px;
+    display: inline-flex;
 }
